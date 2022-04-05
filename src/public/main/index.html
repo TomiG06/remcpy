@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>remcpy</title>
+    <style>
+        body {
+            background-color: white;
+            color: rgb(41, 190, 176);
+            font-family: 'Ubuntu';
+            font-size: 250%;
+            text-align: center;
+        }
+        button {
+            border: none;
+            color:rgb(41, 190, 176);
+            font-size: 70%;
+            margin-top: 5%;
+            width: 90%;
+        }
+        button:hover {
+            background-color: rgb(210, 210, 210);
+            cursor: pointer;
+        }
+
+        input {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-size: 60%;
+        }
+        input:focus {
+            outline: none;
+        }
+
+        header {
+            background-color: rgb(41, 190, 176);
+            color: white;
+        }
+
+        select {
+            font-size: 60%;
+        }
+
+    </style>
+</head>
+<body>
+    <header>remcpy</header>
+    <form action="/api", method="post">
+        <h5>Enter Text</h5>
+        <input type="text" placeholder="Enter text..." name="toBeCopied">
+        <br>
+        <select name="clipboard">
+            <option value="clipboard">clipboard</option>
+            <option value="primitive">primitive</option>
+            <option value="both">both</option>
+        </select>
+        <br>
+        <button type="submit">Copy</button>
+        <h6 id="warning"></h6>
+    </form>
+    <script>
+        const warning = document.getElementById('warning')
+        const cookies = document.cookie.split('; ');
+        let isLoggedIn = false
+        for(let x in cookies) {
+            if(cookies[x].startsWith('JWT')) {
+                isLoggedIn = true;
+                break;
+            }
+        }
+
+        if(!isLoggedIn) {
+            warning.style.color = "red";
+            warning.innerHTML = "won't be able to copy if you are not logged in";
+        }
+    </script>
+</body>
+</html>
