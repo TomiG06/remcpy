@@ -48,11 +48,11 @@
 </head>
 <body>
     <header>remcpy</header>
-    <form action="/api", method="post">
+    <form>
         <h5>Enter Text</h5>
-        <input type="text" placeholder="Enter text..." name="toBeCopied">
+        <input type="text" placeholder="Enter text..." id="tbc">
         <br>
-        <select name="clipboard">
+        <select id="clipboard">
             <option value="clipboard">clipboard</option>
             <option value="primitive">primitive</option>
             <option value="both">both</option>
@@ -75,6 +75,20 @@
         if(!isLoggedIn) {
             warning.style.color = "red";
             warning.innerHTML = "won't be able to copy if you are not logged in";
+        }
+
+        const form = document.querySelector('form')
+        form.onsubmit = async e => {
+            e.preventDefault();
+            let tbc = document.getElementById("tbc").value;
+            let cb = document.getElementById("clipboard").value;
+            console.log([tbc, cb])
+
+            fetch('/api', {
+                method: 'POST',
+                headers: new Headers({'content-type': 'application/x-www-form-urlencoded'}),
+                body: `toBeCopied=${tbc}&clipboard=${cb}`
+            })
         }
     </script>
 </body>

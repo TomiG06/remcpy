@@ -5,7 +5,6 @@ import (
 	"os"
 	"strconv"
 	"time"
-    "fmt"
 
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
@@ -85,7 +84,6 @@ func APIHandler (w http.ResponseWriter, r *http.Request) {
         w.WriteHeader(405)
         w.Write([]byte("POST only"))
     } else {
-
         r.ParseForm()
 
         TextToBeCopied := r.FormValue("toBeCopied")
@@ -93,15 +91,11 @@ func APIHandler (w http.ResponseWriter, r *http.Request) {
         clipboard := r.FormValue("clipboard")
 
         if TextToBeCopied == "" || clipboard == "" {
-            w.WriteHeader(404)
+            w.WriteHeader(400)
             w.Write([]byte("text or clipboard not provided"))
         } else {
-
-            fmt.Println(TextToBeCopied)
-
             w.Write([]byte("Copied"))
         }
-
     }
 }
 
