@@ -59,7 +59,7 @@ func VerificationHandler(w http.ResponseWriter, r *http.Request) {
 				JWTCookie := http.Cookie{
 					Name:   "JWT",
 					Value:  tokenstr,
-					MaxAge: 86400, //Cookies live for one day
+					MaxAge: 86400,
 					Path:   "/",
 				}
 
@@ -87,12 +87,15 @@ func APIHandler (w http.ResponseWriter, r *http.Request) {
     } else {
         r.ParseForm()
 
+        //Text to be copied
         text := r.FormValue("text")
 
         if text == "" {
             w.WriteHeader(400)
             w.Write([]byte("text value can't be empty"))
         } else {
+
+            //Copying
             if err := clipboard.WriteAll(text); err == nil {
                 w.Write([]byte("Copied"))
             } else {

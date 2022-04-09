@@ -10,6 +10,7 @@ import(
 func Authorize(handler http.HandlerFunc) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
 
+        //Get cookies
         JWT, err := r.Cookie("JWT")
 
         if err != nil {
@@ -22,6 +23,11 @@ func Authorize(handler http.HandlerFunc) http.HandlerFunc {
             panic(err)
         }
 
+        /*
+            if no cookies exist, it means that the person
+            who did the request did not login so we cannot 
+            proceed with the request
+        */
         if JWT.Value == "" || SignTime.Value == "" {
 
             w.WriteHeader(403)
