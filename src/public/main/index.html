@@ -39,11 +39,6 @@
             background-color: rgb(41, 190, 176);
             color: white;
         }
-
-        select {
-            font-size: 60%;
-        }
-
     </style>
 </head>
 <body>
@@ -52,17 +47,20 @@
         <h5>Enter Text</h5>
         <input type="text" placeholder="Enter text..." id="tbc">
         <br>
-        <select id="clipboard">
-            <option value="clipboard">clipboard</option>
-            <option value="primitive">primitive</option>
-            <option value="both">both</option>
-        </select>
-        <br>
         <button type="submit">Copy</button>
         <h6 id="warning"></h6>
     </form>
     <script>
-        const warning = document.getElementById('warning')
+
+        /*
+            Check if cookies contain 'JWT' cookie which is
+            provided by the server on password verification (login)
+
+            If 'JWT' cookie is not found, it provides text on
+            'warning' id, that warns the user that the request
+            can't take place
+        */
+
         const cookies = document.cookie.split('; ');
         let isLoggedIn = false
         for(let x in cookies) {
@@ -71,24 +69,29 @@
                 break;
             }
         }
-
+        
+        const warning = document.getElementById('warning')
         if(!isLoggedIn) {
-            warning.style.color = "red";
-            warning.innerHTML = "won't be able to copy if you are not logged in";
-        }
+            warning.style.color = "red"; //Red because it's a warning (obviously)
+            warning.innerHTML = "won't be able to successfully execute request if you are not logged in";
+        } else {
 
-        const form = document.querySelector('form')
-        form.onsubmit = async e => {
-            e.preventDefault();
-            let tbc = document.getElementById("tbc").value;
-            let cb = document.getElementById("clipboard").value;
-            console.log([tbc, cb])
+            //If JWT cookie exists -> specify submit event handler
 
-            fetch('/api', {
-                method: 'POST',
-                headers: new Headers({'content-type': 'application/x-www-form-urlencoded'}),
-                body: `toBeCopied=${tbc}&clipboard=${cb}`
-            })
+            //Handle Form Submit Event
+            document.querySelector('form').onsubmit = async e => {
+                e.preventDefault();
+
+                //body parameter
+                let text = document.getElementById("tbc").value;
+                
+                //POST request execution
+                fetch('/api', {
+                    method: 'POST',
+                    headers: new Headers({'content-type': 'application/x-www-form-urlencoded'}),
+                    body: `text=${text}`
+                })
+            }
         }
     </script>
 </body>

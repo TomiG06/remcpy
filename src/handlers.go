@@ -8,6 +8,7 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
+    "github.com/atotto/clipboard"
 )
 
 func VerificationHandler(w http.ResponseWriter, r *http.Request) {
@@ -86,15 +87,17 @@ func APIHandler (w http.ResponseWriter, r *http.Request) {
     } else {
         r.ParseForm()
 
-        TextToBeCopied := r.FormValue("toBeCopied")
+        text := r.FormValue("text")
 
-        clipboard := r.FormValue("clipboard")
-
-        if TextToBeCopied == "" || clipboard == "" {
+        if text == "" {
             w.WriteHeader(400)
-            w.Write([]byte("text or clipboard not provided"))
+            w.Write([]byte("text value can't be empty"))
         } else {
-            w.Write([]byte("Copied"))
+            if err := clipboard.WriteAll(text); err == nil {
+                w.Write([]byte("Copied"))
+            } else {
+                w.Write([]byte("Could not Copy"))
+            }
         }
     }
 }
