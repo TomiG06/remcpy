@@ -1,5 +1,4 @@
 *.txt
 *.env
 *.swp
-server
-
+src/server/server
