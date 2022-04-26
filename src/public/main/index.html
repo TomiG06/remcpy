@@ -70,8 +70,9 @@
             }
         }
         
-        const warning = document.getElementById('warning')
         if(!isLoggedIn) {
+            const warning = document.getElementById('warning')
+
             warning.style.color = "red"; //Red because it's a warning (obviously)
             warning.innerHTML = "won't be able to successfully execute request if you are not logged in";
         } else {
