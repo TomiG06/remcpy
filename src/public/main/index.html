@@ -39,6 +39,11 @@
             background-color: rgb(41, 190, 176);
             color: white;
         }
+
+        #warning {
+            color: red;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -48,7 +53,7 @@
         <input type="text" placeholder="Enter text..." id="tbc">
         <br>
         <button type="submit">Copy</button>
-        <h6 id="warning"></h6>
+        <h6 id="warning">won't be able to successfully execute request if you are not logged in</h6>
     </form>
     <script>
 
@@ -62,38 +67,24 @@
         */
 
         const cookies = document.cookie.split('; ');
-        let isLoggedIn = false
-        for(let x in cookies) {
-            if(cookies[x].startsWith('JWT')) {
-                isLoggedIn = true;
-                break;
-            }
-        }
         
-        if(!isLoggedIn) {
-            const warning = document.getElementById('warning')
-
-            warning.style.color = "red"; //Red because it's a warning (obviously)
-            warning.innerHTML = "won't be able to successfully execute request if you are not logged in";
-        } else {
+        if(cookies.some(cookie => cookie.startsWith('JWT'))) {
 
             //If JWT cookie exists -> specify submit event handler
 
             //Handle Form Submit Event
             document.querySelector('form').onsubmit = async e => {
                 e.preventDefault();
-
-                //body parameter
-                let text = document.getElementById("tbc").value;
-                
+                    
                 //POST request execution
                 fetch('/api', {
                     method: 'POST',
                     headers: new Headers({'content-type': 'application/x-www-form-urlencoded'}),
-                    body: `text=${text}`
+                    body: `text=${document.getElementById("tbc").value}`
                 })
             }
-        }
+
+        } else document.getElementById('warning').style.display = 'block';
     </script>
 </body>
 </html>
