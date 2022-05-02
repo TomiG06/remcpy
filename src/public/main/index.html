@@ -58,17 +58,12 @@
     <script>
 
         /*
-            Check if cookies contain 'JWT' cookie which is
-            provided by the server on password verification (login)
-
-            If 'JWT' cookie is not found, it provides text on
-            'warning' id, that warns the user that the request
-            can't take place
+            If 'JWT' cookie is not found, the program will 
+            enable the 'warning' id, that warns the user
+            that the request can't take place
         */
 
-        const cookies = document.cookie.split('; ');
-        
-        if(cookies.some(cookie => cookie.startsWith('JWT'))) {
+        if(document.cookie.split('; ').some(cookie => cookie.startsWith('JWT'))) {
 
             //If JWT cookie exists -> specify submit event handler
 
