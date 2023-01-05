@@ -3,7 +3,7 @@
 cd src
 echo "Compiling server"
 cd server
-go build server.go middleware.go handlers.go
+make -f makefile
 
 echo "Making JWT key"
 cd ../
