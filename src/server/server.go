@@ -34,6 +34,10 @@ func main() {
 		fmt.Fprintf(os.Stderr, "PORT must be greater than 1024\nPORT given: %d\n", temp)
 		os.Exit(1)
 	}
+    
+    //<At this particular point I have no idea how this works
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("../public/static/"))))
+    // />
 
 	http.Handle("/login/", http.StripPrefix("/login/", http.FileServer(http.Dir("../public/login"))))
 	http.Handle("/main/", http.StripPrefix("/main/", http.FileServer(http.Dir("../public/main"))))
