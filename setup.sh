@@ -3,7 +3,7 @@
 cd src
 echo "Compiling server"
 cd server
-make -f makefile
+go build -o remcpy
 
 echo "Making JWT key"
 cd ../

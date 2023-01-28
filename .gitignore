@@ -1,4 +1,4 @@
 *.txt
 *.env
 *.swp
-src/server/server
+src/server/remcpy
